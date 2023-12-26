@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 import os
 import subprocess
@@ -28,9 +29,9 @@ def compute_wsjd(data_dict):
     preds = [f'{i} \t {origin} \t {prediction} \n' for i, (origin, prediction) in enumerate(zip(origins, predictions))]
     golds = [f'{i} \t {origin} \t {reference} \n' for i, (origin, reference) in enumerate(zip(origins, references))]
     os.chdir('utils')
-    with open('tmp_pred.para', 'w') as f:
+    with open('tmp_pred.para', 'w', encoding="utf-8") as f:
         f.writelines(preds)
-    with open('tmp_gold.para', 'w') as f:
+    with open('tmp_gold.para', 'w', encoding="utf-8") as f:
         f.writelines(golds)
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
     os.system('python3 parallel_to_m2.py -f tmp_pred.para -o tmp_pred.para.m2 -g char')
