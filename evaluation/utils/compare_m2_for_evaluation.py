@@ -5,8 +5,8 @@ def main():
     # Parse command line args
     args = parse_args()
     # Open hypothesis and reference m2 files and split into chunks
-    hyp_m2 = open(args.hyp).read().strip().split("\n\n")[args.start:args.end] if args.start is not None and args.end is not None else open(args.hyp).read().strip().split("\n\n")
-    ref_m2 = open(args.ref).read().strip().split("\n\n")[args.start:args.end] if args.start is not None and args.end is not None else open(args.ref).read().strip().split("\n\n")
+    hyp_m2 = open(args.hyp, encoding="utf-8").read().strip().split("\n\n")[args.start:args.end] if args.start is not None and args.end is not None else open(args.hyp, encoding="utf-8").read().strip().split("\n\n")
+    ref_m2 = open(args.ref, encoding="utf-8").read().strip().split("\n\n")[args.start:args.end] if args.start is not None and args.end is not None else open(args.ref, encoding="utf-8").read().strip().split("\n\n")
     # Make sure they have the same number of sentences
     assert len(hyp_m2) == len(ref_m2), print(len(hyp_m2), len(ref_m2))
 
