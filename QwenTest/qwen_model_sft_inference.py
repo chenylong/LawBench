@@ -8,9 +8,11 @@ from tqdm import tqdm
 from peft import AutoPeftModelForCausalLM
 from transformers import AutoTokenizer,AutoModelForCausalLM
 from transformers.generation import GenerationConfig
+import openai
 
 dir_name = '/home/caijj/huixin/model_val/evaluate_datasets'
 output_dir_name = '/home/caijj/huixin/model_val/evaluate_datasets_output'
+'''把指定目录下的json文件读取，调用模型和分词器进行聊天生成，将生成结果保存到字典中，最后将字典保存到文件中。'''
 def predicition(model,tokenizer,config):
     for name in os.listdir(dir_name):
         output = {}
@@ -33,7 +35,44 @@ def predicition(model,tokenizer,config):
             i += 1
         print(len(output))
         with open(f'{output_dir_name}/{name}','w',encoding='utf-8') as fw:
-            json.dump(output,fw,ensure_ascii=False)
+            json.dump(output,fw,ensure_ascii=False, indent=4)
+
+
+
+# def predictOpenAi(model, tokenizer, config):
+#     for name in os.listdir(dir_name):
+#         output = {}
+#         i = 0
+#         if not str(name).endswith('.json'):
+#             continue
+#         path = os.path.join(dir_name,name)
+#         with open(path,encoding='utf-8') as fr:
+#             data_json = json.load(fr)
+#         for data in tqdm(data_json):
+#             new_data = {}
+#             prompt = data['instruction'] + data['question']
+#             print(prompt)
+#             new_data['origin_prompt'] = prompt
+#             new_data['refr'] = data['answer']
+#             response, _ = openai.Completion.create(
+#                 engine=model,
+#                 prompt=prompt,
+#                 max_tokens=50,
+#                 temperature=0.5,
+#                 top_p=1.0,
+#                 n=1,
+#                 stop=None,
+#                 temperature=config['temperature'],
+#                 max_tokens=config['max_tokens']
+#             )
+#             print(response.choices[0].text)
+#             new_data['prediction'] = response.choices[0].text
+#             output[str(i)] = new_data
+#             i += 1
+#         print(len(output))
+#         with open(f'{output_dir_name}/{name}','w',encoding='utf-8') as fw:
+#             json.dump(output,fw,ensure_ascii=False, indent=4)
+
 
 if __name__ == '__main__':
     qwen_model_path = '/home/caijj/huixin/model_val/qwen_pretrain_merge_chat_model'

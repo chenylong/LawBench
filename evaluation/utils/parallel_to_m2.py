@@ -193,6 +193,7 @@ def main(args):
         lines = new_lines
         for idx, line in enumerate(tqdm(lines)):
             ret = annotate(line)
+            print("parallel_to_m2 : ",ret)
             f.write(ret)
             f.write("\n") 
 
@@ -218,4 +219,5 @@ if __name__ == "__main__":
     parser.add_argument("--no_simplified", help="Whether simplifying chinese", action="store_true")  # 将所有corrections转换为简体中文
     parser.add_argument("--bpe", help="Whether to use bpe", action="store_true")  # 支持 bpe 切分英文单词
     args = parser.parse_args()
+    print(args)
     main(args)

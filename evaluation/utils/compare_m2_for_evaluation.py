@@ -399,7 +399,7 @@ def processCategories(cat_dict, setting):
 
 # Input 1: A dict of global best TP, FP and FNs
 # Input 2: A dict of error types and counts for those TP, FP and FNs
-# Input 3: Command line args
+# Input 3: Command line args v
 def print_results(best, best_cats, args):
     # Prepare output title.
     if args.dt: title = " Token-Based Detection "
