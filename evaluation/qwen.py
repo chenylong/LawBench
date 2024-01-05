@@ -40,7 +40,7 @@ def main(argv):
                   "3-5": ljp_imprison.compute_ljp_imprison,
                   "2-3": wbfl.compute_wbfl,
                   "2-6": xxcq.compute_xxcq,
-                  #"2-1": wsjd.compute_wsjd,
+                  "2-1": wsjd.compute_wsjd,
                   "2-4": zxfl.compute_zxfl,
                   "2-7": yqzy.compute_yqzy,
                   "2-8": lblj.compute_lblj,
@@ -88,3 +88,5 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv[1:])
+    # -i ../predictions/qwen_one_shot -o ../predictions/qwen_one_shot/qwen_results0101.csv
+    # -i ../predictions/qwen_zero_shot -o ../predictions/qwen_zero_shot/qwen_results0101.csv

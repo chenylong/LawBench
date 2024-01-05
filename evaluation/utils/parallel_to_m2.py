@@ -153,7 +153,8 @@ def main(args):
                 line_split = line.split("\t")
                 line_number, sent_list = line_split[0], line_split[1:]
                 assert len(sent_list) == 2
-                sent_list[-1] = " 无"
+                #  2024年1月4日21:40:56 注释掉了
+                #sent_list[-1] = " 无"
                 line = line_number + "\t" + "\t".join(sent_list)
                 # print(f"line time out: {line}")
                 new_lines.append(line)
@@ -195,7 +196,7 @@ def main(args):
             ret = annotate(line)
             print("parallel_to_m2 : ",ret)
             f.write(ret)
-            f.write("\n") 
+            f.write("\n")
 
         # 多进程模式：仅在Linux环境下测试，建议在linux服务器上使用
         # with Pool(args.worker_num) as pool:

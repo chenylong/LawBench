@@ -21,6 +21,10 @@ def compute_wsjd(data_dict):
         question, prediction, answer = example["origin_prompt"], example["prediction"], example["refr"]
         if isinstance(question, list):
             question = question[0]['prompt']
+
+        if len(answer) > 1000:
+            print("回答内容过长，截取")
+            answer = answer[:1000]
         start = question.index('句子：\n') + 4
         origins.append(re.sub(r'\n|\t', '', question[start:].split('\n')[0]))
         # truncate predictions >5 tokens longer than the reference
@@ -37,9 +41,9 @@ def compute_wsjd(data_dict):
     golds = [f'{i} \t {origin} \t {reference} \n' for i, (origin, reference) in enumerate(zip(origins, references))]
     os.chdir('utils')
     with open('tmp_pred.para', 'w', encoding="utf-8") as f:
-        f.writelines(preds)
+            f.writelines(preds)
     with open('tmp_gold.para', 'w', encoding="utf-8") as f:
-        f.writelines(golds)
+            f.writelines(golds)
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
     os.system('python3 parallel_to_m2.py -f tmp_pred.para -o tmp_pred.para.m2 -g char')
@@ -48,9 +52,26 @@ def compute_wsjd(data_dict):
     score = float(output.decode().split('\t')[-1].split('\n')[0])
     #remove prediction files
 
-    os.remove('tmp_pred.para')
-    os.remove('tmp_gold.para')
-    os.remove('tmp_pred.para.m2')
-    os.remove('tmp_gold.para.m2')
+    # os.remove('tmp_pred.para')
+    # os.remove('tmp_gold.para')
+    # os.remove('tmp_pred.para.m2')
+    # os.remove('tmp_gold.para.m2')
     os.chdir('..')
     return {"score": score}
+
+# if __name__ == '__main__':
+#
+#     data_dict = [
+#         {
+#                 "origin_prompt": "纠正下面法律文书句子中字词的拼写、冗余、缺失、乱序错误，尽量减少对原句的修改，保留原句语义。只需要给出修改后的句子，请你严格按照这个格式回答。下面是一个例子:\n经交通管理部门认定，燕云社负淑故主要这任。\n经交通管理部门认定，燕云社负事故主要责任。\n请你回答:\n句子：\n2021年6月，被告人蒋文军在山西省市潞州区王某甲家中向王某乙出售毒品10克，收取毒资2000元。",
+#                 "refr": "2021年6月，被告人蒋文军在山西省长治市潞州区王某甲家中向王某乙出售毒品10克，收取毒资2000元。",
+#                 "prediction": "2021年6月，被告人蒋文军在山西省长治市潞州区王某甲家中向王某乙出售毒品10克，收取毒资2000元。"
+#             },
+#             {
+#                 "origin_prompt": "纠正下面法律文书句子中字词的拼写、冗余、缺失、乱序错误，尽量减少对原句的修改，保留原句语义。只需要给出修改后的句子，请你严格按照这个格式回答。下面是一个例子:\n经交通管理部门认定，燕云社负淑故主要这任。\n经交通管理部门认定，燕云社负事故主要责任。\n请你回答:\n句子：\n衣裳事实,有当事人提供的证据、庭审笔录等在案坐正。",
+#                 "refr": "以上事实,有当事人提供的证据、庭审笔录等在案佐证。",
+#                 "prediction": "衣裳事实清楚，有当事人提供的证据、庭审笔录等在案佐证。"
+#             }
+#         ]
+#     score = compute_wsjd(data_dict)
+#     print(score)

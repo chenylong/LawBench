@@ -5,6 +5,8 @@ def main():
     # Parse command line args
     args = parse_args()
     # Open hypothesis and reference m2 files and split into chunks
+
+
     hyp_m2 = open(args.hyp, encoding="utf-8").read().strip().split("\n\n")[args.start:args.end] if args.start is not None and args.end is not None else open(args.hyp, encoding="utf-8").read().strip().split("\n\n")
     ref_m2 = open(args.ref, encoding="utf-8").read().strip().split("\n\n")[args.start:args.end] if args.start is not None and args.end is not None else open(args.ref, encoding="utf-8").read().strip().split("\n\n")
     # Make sure they have the same number of sentences
@@ -32,7 +34,7 @@ def main():
             # Merge these dicts with best_dict and best_cats
             best_dict += Counter(count_dict)
             best_cats = merge_dict(best_cats, cat_dict)
-    # Print results
+    print(best_dict,' : ',best_cats,' args:',args)
     print_results(best_dict, best_cats, args)
 
 # Parse command line args
