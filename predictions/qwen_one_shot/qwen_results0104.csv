@@ -1,0 +1,3 @@
+task,model_name,score,abstention_rate
+2-1,huixin-14b-chat-hf,28.78,0
+2-1,qwen-14b-chat,0.1634,0
